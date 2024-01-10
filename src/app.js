@@ -50,8 +50,14 @@ app.put('/books/:id', (req, res) => {
     return res.status(200).json()
 });
 
+app.delete('/books/:id', (req, res) => {
+    const { id } = req.params
 
+    const bookIndex = books.findIndex(book => book.id === parseInt(id));
 
-
+    return bookIndex !== -1
+        ? (books.splice(bookIndex, 1), res.status(204).send())
+        : res.status(404).json({ error: 'Not Found' });
+})
 
 export default app;
