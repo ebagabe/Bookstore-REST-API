@@ -16,7 +16,7 @@ const books = [
 
 
 function searchBook(id) {
-    const filterBook = books.filter((book) => book.id === parseInt(id));
+    const filterBook = books.find((book) => book.id === parseInt(id));
     return filterBook
 }
 
@@ -30,7 +30,9 @@ app.get('/books', (req, res) => {
 
 app.get('/books/:id', (req, res) => {
     const { id } = req.params;
-    res.status(200).json(searchBook(id))
+
+    const book = searchBook(id);
+    res.status(200).json(book);
 })
 
 app.post('/books', (req, res) => {
@@ -43,10 +45,9 @@ app.put('/books/:id', (req, res) => {
     const { title } = req.body;
 
     const book = searchBook(id)
+    book.title = title
 
-    book[0].title = title
-
-    return res.status(200).json({ message: "Updated!" })
+    return res.status(200).json()
 });
 
 
