@@ -169,7 +169,7 @@ Deletes a specific book based on the provided ID.
     - Content:
         
         ```json
-        `[   
+        [   
           {     
             "id": "aspasldaspldq123",     
             "name": "Author name",     
