@@ -1,6 +1,6 @@
 import express from "express";
 import databaseConnect from "./config/dbConnect.js";
-import book from "./models/Book.js";
+import routes from "./routes/index.js";
 
 const connection = await databaseConnect();
 
@@ -13,7 +13,7 @@ connection.once("open", () => {
 })
 
 const app = express();
-app.use(express.json());
+routes(app);
 
 app.get('/books/:id', (req, res) => {
     const { id } = req.params;
