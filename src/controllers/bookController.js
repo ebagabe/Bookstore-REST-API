@@ -1,3 +1,4 @@
+import { author } from '../models/Author.js';
 import book from '../models/Book.js';
 
 class BookController {
@@ -22,10 +23,13 @@ class BookController {
     }
 
     static async RegisterBook(req, res) {
-        try {
-            const newBook = await book.create(req.body)
-            res.status(201).json({ message: "Book successfully registered.", book: newBook });
+        const newBook = req.body;
 
+        try {
+            const authorFound = await author.findById(newBook.author);
+            const completeBook = { ...newBook, author: { ...authorFound._doc } };
+            const bookCreated = await book.create(completeBook);
+            res.status(201).json({ message: "Book successfully registered.", book: newBook });
         } catch (error) {
             res.status(500).json({ message: `${error.message} - Failed to register book.` });
         }
