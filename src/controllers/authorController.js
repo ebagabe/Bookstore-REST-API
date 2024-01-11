@@ -31,7 +31,7 @@ class AuthorController {
         }
     }
 
-    static async updateAuthor(req, res) {
+    static async UpdateAuthor(req, res) {
         try {
             const { id } = req.params;
             await author.findByIdAndUpdate(id, req.body);
@@ -42,7 +42,7 @@ class AuthorController {
         }
     }
 
-    static async deleteAuthor(req, res) {
+    static async DeleteAuthor(req, res) {
         try {
             const { id } = req.params;
             await author.findByIdAndDelete(id);
