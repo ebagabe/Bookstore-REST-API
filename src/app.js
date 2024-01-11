@@ -15,11 +15,6 @@ connection.once("open", () => {
 const app = express();
 app.use(express.json());
 
-app.get('/books', async (req, res) => {
-    const allBooks = await book.find({})
-    res.status(200).json(allBooks)
-})
-
 app.get('/books/:id', (req, res) => {
     const { id } = req.params;
 
