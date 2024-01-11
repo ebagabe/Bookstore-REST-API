@@ -158,3 +158,118 @@ Deletes a specific book based on the provided ID.
         "message": "Failed to delete the book"
     }
 ```
+### 1. List Authors
+
+- **URL**: `/authors`
+  
+- **Method**: `GET`
+  
+- **Successful Response**:
+    - Code: 200
+    - Content:
+        
+        ```json
+        `[   
+          {     
+            "id": "aspasldaspldq123",     
+            "name": "Author name",     
+            "nationality": "American"   
+          },   
+          // Other authors...
+        ]
+        ```
+        
+### 2. Get Author by ID
+
+- **URL**: `/authors/:id`
+  
+- **Method**: `GET`
+  
+- **URL Parameters**:
+    - `id` (integer) - Unique ID of the author to be retrieved.
+- **Successful Response**:
+    - Code: 200
+    - Content:
+        ```json  
+          {     
+            "id": "aspasldaspldq123",     
+            "name": "Author name",     
+            "nationality": "American"   
+          },   
+        ```
+
+### 3. Register a New Author
+
+- **URL**: `/authors`
+  
+- **Method**: `POST`
+  
+- **Request Body**:
+    
+    ```json
+      {
+        "name": "Jane Smith",
+        "nationality": "British"
+      }
+    ```
+    
+- **Successful Response**:
+    - Code: 201 (Created)
+    - Content:
+               
+    ```json
+      {
+        "id": "dkqkeqkdk213sdfmatt8",
+        "name": "Jane Smith",
+        "nationality": "British"
+      }
+    ```
+        
+
+### 4. Update Author by ID
+
+- **URL**: `/authors/:id`
+  
+- **Method**: `PUT`
+  
+- **URL Parameters**:
+    - `id` (integer) - Unique ID of the author to be updated.
+- **Request Body**:
+    
+    ```json
+      {
+        "nationality": "Canadian"
+      }
+    ```
+    
+- **Successful Response**:
+    - Code: 200
+    - Content:
+        
+    ```json
+      {
+        "id": "dkqkeqkdk213sdfmatt8",
+        "name": "Jane Smith",
+        "nationality": "Canadian"
+      }
+    ```
+      
+### 5. Delete Author by ID
+
+- **URL**: `/authors/:id`
+  
+- **Method**: `DELETE`
+  
+- **URL Parameters**:
+    - `id` (integer) - Unique ID of the author to be deleted.
+- **Successful Response**:
+    - Code: 204 (No Content)
+    - Content: None
+- **Error Response**:
+    - Code: 500 (Internal Server Error)
+    - Content:
+        
+        ```json
+            {   "message": "Failed to delete the author" }
+        
+        ```
