@@ -34,3 +34,7 @@ The parts that can make up the response are:
     - Cache-Control, which includes cache instructions for the response
     - Set-Cookie, which adds a cookie value to the browser. If you want to learn more, check out this article on what cookies are and how they are used.
 3. Body, the response body containing the data or content requested by the client through the request and sent by the server. The data format of the body depends on the format specified in Content-Type, for example, JSON.
+
+PUT vs PATCH In the project, the PUT method was used to make changes to a record (the Update part of CRUD). However, there is also the PATCH method, which also updates a record. So, what is the difference between them?
+
+PUT completely replaces the current resource with the new data received in the request. If the previous resource does not exist, it will be created. Despite this, it is not the recommended method for creating new resources; for that, there is the POST method. PATCH partially updates an existing resource. Unlike PUT, which needs to receive a complete resource for a complete replacement, PATCH can receive only the data to be modified, updating only those fields.
