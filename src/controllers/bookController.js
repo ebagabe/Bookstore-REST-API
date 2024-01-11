@@ -57,6 +57,17 @@ class BookController {
         }
 
     }
+
+    static async ListBooksByPublisher(req, res) {
+        const publisher = req.query.publisher;
+
+        try {
+            const booksByPublisher = await book.find({ publisher });
+            res.status(200).json(booksByPublisher);
+        } catch (error) {
+            res.status(500).json({ message: "Failed to find" });
+        }
+    }
 };
 
 export default BookController;
