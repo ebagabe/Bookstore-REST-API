@@ -15,28 +15,6 @@ connection.once("open", () => {
 const app = express();
 routes(app);
 
-app.get('/books/:id', (req, res) => {
-    const { id } = req.params;
-
-    const book = searchBook(id);
-    res.status(200).json(book);
-})
-
-app.post('/books', (req, res) => {
-    books.push(req.body)
-    res.status(201).send("Book successfully registered")
-})
-
-app.put('/books/:id', (req, res) => {
-    const { id } = req.params;
-    const { title } = req.body;
-
-    const book = searchBook(id)
-    book.title = title
-
-    return res.status(200).json()
-});
-
 app.delete('/books/:id', (req, res) => {
     const { id } = req.params
 
