@@ -1,4 +1,15 @@
 import express from "express";
+import databaseConnect from "./config/dbConnect.js";
+
+const connection = await databaseConnect();
+
+connection.on("error", (error) => {
+    console.error("Error connection: ", error)
+})
+
+connection.once("open", () => {
+    console.log("Success conection!");
+})
 
 const app = express();
 app.use(express.json());
@@ -64,4 +75,3 @@ app.delete('/books/:id', (req, res) => {
 
 export default app;
 
-// mongodb+srv://admin:<password>@cluster0.g4ggftp.mongodb.net/?retryWrites=true&w=majority
