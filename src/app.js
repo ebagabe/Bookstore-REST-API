@@ -1,5 +1,6 @@
 import express from "express";
 import databaseConnect from "./config/dbConnect.js";
+import book from "./models/Book.js";
 
 const connection = await databaseConnect();
 
@@ -14,28 +15,9 @@ connection.once("open", () => {
 const app = express();
 app.use(express.json());
 
-const books = [
-    {
-        id: 1,
-        title: 'The Lord of the Rings'
-    },
-    {
-        id: 2,
-        title: 'The Hobbit'
-    }
-];
-
-function searchBook(id) {
-    const filterBook = books.find((book) => book.id === parseInt(id));
-    return filterBook
-}
-
-app.get("/", (req, res) => {
-    res.status(200).send("NodeJs and MongoDB & Express")
-});
-
-app.get('/books', (req, res) => {
-    res.status(200).json(books)
+app.get('/books', async (req, res) => {
+    const allBooks = await book.find({})
+    res.status(200).json(allBooks)
 })
 
 app.get('/books/:id', (req, res) => {

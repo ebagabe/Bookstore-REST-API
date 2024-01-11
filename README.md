@@ -12,3 +12,4 @@
 - Install dependencies with `npm install`
 - Initialize the server: `npm run dev`
 - Test the endpoint in Postman or similar: `http://localhost:3000`
+- Replace the .env.example with .env and update it with your environment variables according to your machine and configurations.

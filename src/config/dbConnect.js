@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 
 async function databaseConnect() {
-    mongoose.connect("mongodb+srv://admin:admin123@cluster0.g4ggftp.mongodb.net/bookstore?retryWrites=true&w=majority");
-
+    mongoose.connect(process.env.DB_CONNECTION_STRING);
     return mongoose.connection;
 };
 
