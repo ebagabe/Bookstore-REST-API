@@ -133,3 +133,28 @@ Updates the information of a specific book based on the provided ID.
         "pages": 270
     }
 ```
+
+## Delete Book by ID
+
+Deletes a specific book based on the provided ID.
+
+- **URL** `/books/:id`
+    
+- **Method:** `DELETE`
+    
+- **URL Parameters:**
+    - `id` (string) - Unique ID of the book to be deleted.
+- **Successful Response:**
+    
+    - Code: 204 (No Content)
+    - Content: None
+- **Error Response:**
+    
+    - Code: 500 (Internal Server Error)
+    - Content:
+  
+```json
+    {
+        "message": "Failed to delete the book"
+    }
+```
