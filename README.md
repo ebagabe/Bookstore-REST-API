@@ -5,7 +5,7 @@
 - Express
 - Mongodb
 - Mongoose
-- Nodemon as developer tool
+- Nodemon and dotenv as developer tool
 
 ## How to run this application
 
