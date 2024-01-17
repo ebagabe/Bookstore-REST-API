@@ -3,10 +3,10 @@ import AuthorController from "../controllers/authorController.js";
 
 const routes = express.Router();
 
-routes.get("/authors", AuthorController.ListAuthors);
-routes.get("/authors/:id", AuthorController.AuthorById);
-routes.post("/authors", AuthorController.RegisterAuthor);
-routes.put("/authors/:id", AuthorController.UpdateAuthor);
-routes.delete("/authors/:id", AuthorController.DeleteAuthor);
+routes.get("/authors", AuthorController.listAuthors);
+routes.get("/authors/:id", AuthorController.authorById);
+routes.post("/authors", AuthorController.registerAuthor);
+routes.put("/authors/:id", AuthorController.updateAuthor);
+routes.delete("/authors/:id", AuthorController.deleteAuthor);
 
 export default routes;

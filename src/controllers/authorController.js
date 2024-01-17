@@ -1,7 +1,7 @@
 import { authors } from "../models/Author.js";
 
 class AuthorController {
-  static ListAuthors = async (req, res) => {
+  static listAuthors = async (req, res) => {
 
     try {
       const listAuthors = await authors.find();
@@ -12,7 +12,7 @@ class AuthorController {
 
   };
 
-  static AuthorById = async (req, res) => {
+  static authorById = async (req, res) => {
     try {
       const { id } = req.params;
       const authorFound = await authors.findById(id);
@@ -23,37 +23,52 @@ class AuthorController {
     }
   };
 
-  static RegisterAuthor = async (req, res) => {
+  static registerAuthor = async (req, res) => {
     try {
-      const newAuthor = await authors.create(req.body);
-      res.status(201).json({ message: "Author successfully registered.", author: newAuthor });
+      let author = new authors(req.body);
+      const authorResult = await author.save();
+
+      res.status(201).send(authorResult.toJSON());
 
     } catch (error) {
       res.status(500).json({ message: `${error.message} - Failed to register a author.` });
     }
   };
 
-  static UpdateAuthor = async (req, res) =>  {
+  static updateAuthor = async (req, res) => {
     try {
-      const { id } = req.params;
-      await authors.findByIdAndUpdate(id, req.body);
-      res.status(200).json({ message: "Author updated" });
+      const id = req.params.id;
 
+      await authors.findByIdAndUpdate(id, { $set: req.body });
+
+      res.status(200).send({ message: "Update Successful" });
     } catch (error) {
-      res.status(500).json({ message: `${error.message} - Update failed` });
+      res.status(500).send({ message: error.message });
     }
   };
 
-  static DeleteAuthor = async (req, res) =>  {
+  static deleteAuthor = async (req, res) => {
     try {
-      const { id } = req.params;
+      const id = req.params.id;
+
       await authors.findByIdAndDelete(id);
 
-      res.status(204).json({ message: "Author deleted" });
+      res.status(200).send({ message: "Delete Successful" });
     } catch (error) {
-      res.status(500).json({ message: "Failed to delete" });
+      res.status(500).send({ message: error.message });
     }
+  };
 
+  static listAuthorById = async (req, res) => {
+    try {
+      const id = req.params.id;
+
+      const author = await authors.findById(id);
+
+      res.status(200).send(author);
+    } catch (error) {
+      res.status(400).send({ message: error.message });
+    }
   };
 }
 

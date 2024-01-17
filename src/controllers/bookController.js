@@ -1,73 +1,81 @@
-import { authors } from "../models/Author.js";
-import book from "../models/Book.js";
+import books from "../models/Book.js";
 
 class BookController {
-  static async ListBooks(req, res) {
+
+  static listBooks = async (req, res) => {
     try {
-      const listBooks = await book.find({});
-      res.status(200).json(listBooks);
-    } catch (error) {
-      res.status(500).json({ message: `${error.message} - Request failed` });
-    }
-  }
+      const booksResult = await books.find()
+        .populate("author")
+        .exec();
 
-  static async BookById(req, res) {
+      res.status(200).json(booksResult);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+
+  static bookById = async (req, res) => {
     try {
-      const { id } = req.params;
-      const bookFound = await book.findById(id);
-      res.status(200).json(bookFound);
+      const id = req.params.id;
 
+      const bookResult = await books.findById(id)
+        .populate("author", "name")
+        .exec();
+
+      res.status(200).send(bookResult);
     } catch (error) {
-      res.status(500).json({ message: `${error.message} - Request failed` });
+      res.status(400).send({ message: error.message });
     }
-  }
+  };
 
-  static async RegisterBook(req, res) {
-    const newBook = req.body;
-
+  static registerBook = async (req, res) => {
     try {
-      const authorFound = await authors.findById(newBook.author);
-      const completeBook = { ...newBook, author: { ...authorFound._doc } };
-      const bookCreated = await book.create(completeBook);
-      res.status(201).json({ message: "Book successfully registered.", book: newBook });
-    } catch (error) {
-      res.status(500).json({ message: `${error.message} - Failed to register book.` });
-    }
-  }
+      let book = new books(req.body);
 
-  static async updateBook(req, res) {
+      const bookResults = await book.save();
+
+      res.status(201).send(bookResults.toJSON());
+    } catch (error) {
+      res.status(500).send({ message: error.message });
+    }
+  };
+
+  static updateBook = async (req, res) => {
     try {
-      const { id } = req.params;
-      await book.findByIdAndUpdate(id, req.body);
-      res.status(200).json({ message: "Book updated" });
+      const id = req.params.id;
 
+      await books.findByIdAndUpdate(id, { $set: req.body });
+
+      res.status(200).send({ message: "Book updated" });
     } catch (error) {
-      res.status(500).json({ message: `${error.message} - Update failed` });
+      res.status(500).send({ message: error.message });
     }
-  }
+  };
 
-  static async deleteBook(req, res) {
+  static deleteBook = async (req, res) => {
     try {
-      const { id } = req.params;
-      await book.findByIdAndDelete(id);
+      const id = req.params.id;
 
-      res.status(204).json({ message: "Book deleted" });
+      await books.findByIdAndDelete(id);
+
+      res.status(200).send({ message: "Book deleted" });
     } catch (error) {
-      res.status(500).json({ message: "Failed to delete" });
+      res.status(500).send({ message: error.message });
     }
+  };
 
-  }
-
-  static async ListBooksByPublisher(req, res) {
-    const publisher = req.query.publisher;
-
+  static bookByPublisher = async (req, res) => {
     try {
-      const booksByPublisher = await book.find({ publisher });
-      res.status(200).json(booksByPublisher);
+      const publisher = req.query.publisher;
+
+      const bookResult = await books.find({ "publisher": publisher });
+
+      res.status(200).send(bookResult);
     } catch (error) {
-      res.status(500).json({ message: "Failed to find" });
+      res.status(500).json({ message: error.message });
     }
-  }
+  };
+
 }
 
 export default BookController;
