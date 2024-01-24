@@ -1,19 +1,18 @@
-import mongoose from "mongoose";
 import { authors } from "../models/Author.js";
 
 class AuthorController {
-  static listAuthors = async (req, res) => {
+  static listAuthors = async (req, res, next) => {
 
     try {
       const listAuthors = await authors.find();
       res.status(200).json(listAuthors);
     } catch (error) {
-      res.status(500).json(error.message);
+      next(error);
     }
 
   };
 
-  static authorById = async (req, res) => {
+  static authorById = async (req, res, next) => {
     try {
       const { id } = req.params;
       const authorFound = await authors.findById(id);
@@ -24,14 +23,11 @@ class AuthorController {
 
       return res.status(404).json({ message: "Author ID not found." });
     } catch (error) {
-      if (error instanceof mongoose.Error.CastError) {
-        return res.status(400).send({ message: "Bad Request" });
-      }
-      res.status(500).send({ message: "Internal Server Error" });
+      next(error)
     }
   };
 
-  static registerAuthor = async (req, res) => {
+  static registerAuthor = async (req, res, next) => {
     try {
       let author = new authors(req.body);
       const authorResult = await author.save();
@@ -39,11 +35,11 @@ class AuthorController {
       res.status(201).send(authorResult.toJSON());
 
     } catch (error) {
-      res.status(500).json({ message: `${error.message} - Failed to register a author.` });
+      next(error);
     }
   };
 
-  static updateAuthor = async (req, res) => {
+  static updateAuthor = async (req, res, next) => {
     try {
       const id = req.params.id;
 
@@ -51,11 +47,11 @@ class AuthorController {
 
       res.status(200).send({ message: "Update Successful" });
     } catch (error) {
-      res.status(500).send({ message: error.message });
+      next(error);
     }
   };
 
-  static deleteAuthor = async (req, res) => {
+  static deleteAuthor = async (req, res, next) => {
     try {
       const id = req.params.id;
 
@@ -63,11 +59,11 @@ class AuthorController {
 
       res.status(200).send({ message: "Delete Successful" });
     } catch (error) {
-      res.status(500).send({ message: error.message });
+      next(error);
     }
   };
 
-  static listAuthorById = async (req, res) => {
+  static listAuthorById = async (req, res, next) => {
     try {
       const id = req.params.id;
 
@@ -75,7 +71,7 @@ class AuthorController {
 
       res.status(200).send(author);
     } catch (error) {
-      res.status(400).send({ message: error.message });
+      next(error);
     }
   };
 }
