@@ -1,18 +1,18 @@
 import mongoose from "mongoose";
+import ErrorBase from "../errors/ErrorBase.js";
+import IncorrectRequest from "../errors/IncorrectRequest.js";
+import ValidationError from "../errors/ValidationError.js";
 
 const errorHandler = (error, req, res, next) => {
     if (error instanceof mongoose.Error.CastError) {
-        return res.status(400).send({ message: "Bad Request" });
+        new IncorrectRequest().sendResponse(res);
     }
 
     if (error instanceof mongoose.Error.ValidationError) {
-        const errorMessage = Object.values(error.errors)
-        .map(error => error.message)
-        .join("; ");
-        return res.status(400).send({ message: errorMessage })
+        new ValidationError(error).sendResponse(res)
     }
 
-    res.status(500).send({ message: "Internal Server Error" });
+    new ErrorBase().sendResponse(res)
 }
 
 export default errorHandler;
