@@ -44,9 +44,13 @@ class AuthorController {
     try {
       const id = req.params.id;
 
-      await authors.findByIdAndUpdate(id, { $set: req.body });
+      const updatedAuthor = await authors.findByIdAndUpdate(id, { $set: req.body });
 
-      res.status(200).send({ message: "Update Successful" });
+      if (updatedAuthor !== null) {
+        return res.status(200).send({ message: "Update Successful" });
+      }
+
+      next(new NotFound("Author Id Not Found"))
     } catch (error) {
       next(error);
     }
@@ -56,9 +60,14 @@ class AuthorController {
     try {
       const id = req.params.id;
 
-      await authors.findByIdAndDelete(id);
+      const authorFind = await authors.findByIdAndDelete(id);
 
-      res.status(200).send({ message: "Delete Successful" });
+      if (authorFind !== null) {
+        return res.status(200).send({ message: "Delete Successful" });
+      }
+
+      next(new NotFound("Author ID Not Found"))
+
     } catch (error) {
       next(error);
     }
