@@ -1,3 +1,4 @@
+import NotFound from "../errors/NotFound.js";
 import { authors } from "../models/Author.js";
 
 class AuthorController {
@@ -21,7 +22,7 @@ class AuthorController {
         return res.status(200).json(authorFound);
       }
 
-      return res.status(404).json({ message: "Author ID not found." });
+      next(new NotFound("ID Don't Found"))
     } catch (error) {
       next(error)
     }
